@@ -1,0 +1,53 @@
+application: i2s-summer-school
+version: 1
+runtime: python27
+api_version: 1
+threadsafe: yes
+
+handlers:
+- url: /favicon\.ico
+  static_files: favicon.ico
+  upload: favicon\.ico
+
+
+
+- url: /(.*\.html) # All URLs with /<TEXT>.html
+  static_files: static/\1 # Direct to static files at public/<TEXT>.html for all URLs given above
+  upload: static/(.*)
+
+- url: /font/(.*)
+  static_files: static/font/\1
+  upload: static/font/(.*\.ttf)
+  http_headers:
+    Access-Control-Allow-Origin: "*"
+
+
+- url: /img/(.*)
+  static_files: static/img/\1
+  upload: static/img/(.*\.(bmp|gif|ico|jpeg|jpg|png))
+
+- url: /js/(.*)
+  static_files: static/js/\1
+  upload: static/js/(.*\.js)
+
+- url: /css/(.*)
+  static_files: static/css/\1
+  upload: static/css/(.*\.css)
+  mime_type: "text/css"
+
+- url: /snake-guide
+  static_files: static/snake-guide.html
+  upload: static/snake-guide.html
+
+- url: /snake-sample
+  static_files: static/snake-sample.html
+  upload: static/snake-sample.html
+
+- url: /
+  static_files: static/index.html
+  upload: static/index.html
+
+libraries:
+- name: webapp2
+  version: "2.5.2"
+
