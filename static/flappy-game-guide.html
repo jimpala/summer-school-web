@@ -2,9 +2,275 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>in2science Summer School</title>
+
+    <script src="https://code.jquery.com/jquery-3.1.0.min.js"
+            integrity="sha256-cCueBR6CsyA4/9szpPfrX3s49M9vUU5BgtiJj06wt/s="
+            crossorigin="anonymous"></script>
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+          integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" href="./css/style.css">
+    <link href="https://afeld.github.io/emoji-css/emoji.css" rel="stylesheet">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
+            integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+            crossorigin="anonymous"></script>
+    <script src="js/contents.js"></script>
+
 </head>
 <body>
+<nav class="navbar navbar-default navbar-fixed-top">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <button class="navbar-toggle" type="button" data-toggle="collapse" data-target="#ox-navbar">
+                <i class="fa fa-chevron-down"></i>
+            </button>
+            <a class="navbar-brand" href="http://i2s-summer-school.appspot.com">in2science Summer School 2016</a>
+        </div>
+        <nav class="navbar-collapse collapse" id="ox-navbar">
+            <ul class="nav navbar-nav navbar-right">
+                <li class="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">SNAKE GAME<span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="http://i2s-summer-school.appspot.com/snake-guide">Guide</a></li>
+                    </ul>
+                </li>
+                <li class="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">FLAPPY BIRD<span
+                            class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="http://i2s-summer-school.appspot.com/flappy-game-guide">Game Guide</a></li>
+                        <li><a href="http://i2s-summer-school.appspot.com/flappy-ai-guide">AI Guide</a></li>
+                        <li><a href="http://i2s-summer-school.appspot.com/flappy-phaser">Phaser 101</a></li>
+                        <li><a href="http://i2s-summer-school.appspot.com/flappy-q-learning">Q-Learning 101</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </nav>
+    </div>
+</nav>
 
+<div id="main-container" class="container-fluid">
+    <div class="container-fluid page-heading"
+         style="background-image: url(http://cdn0.dailydot.com/cache/94/9a/949a401a9563f55decefc3afa3168378.jpg)">
+        <h3>Flappy Bird</h3>
+    </div>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-9">
+                <div class="section" id="overview">
+                    <div class="slim">
+                        <h2>Overview</h2>
+                        <p>
+                            In this task we will be creating a Flappy Bird style game using the Phaser.js
+                            JavaScript game library.
+                        </p>
+                        <p>
+                            Up to this point, we have done all of our coding in plain JavaScript, with the aid
+                            of HTML canvasses for animation. This can be a pain, as coding user-friendly functionality
+                            from scratch can often be time-consuming, and can make our code very long with little
+                            end product to show for it.
+                        </p>
+                        <p>
+                            Fortunately, there is a solution: libraries. Modern programming practice generally involves
+                            the usage of libraries that can do a lot of the heavy-lifting for you, making it much easier
+                            to create more detailed and concise programs. There are literally thousands of libraries
+                            available for most of the popular programming languages around today!
+                        </p>
+                        <p>
+                            Phaser.js is a library built for making good-looking games with minimal effort, featuring
+                            relatively simple methods for importing game graphics (or 'sprites'), updating your game
+                            as it runs, including pre-made physics engines, and many more things. For a bit more
+                            on Phaser, <a href="http://i2s-summer-school.appspot.com/flappy-phaser">
+                            check out a brief introduction and links to further resources here.</a>
+                        </p>
+                        <p>
+                            Given that Phaser is likely new territory for you, this guide is a little bit prescriptive
+                            and will mostly provide you with all the functions associated with Phaser you'll need to
+                            create the game. We'll mainly be using this game as a platform to implement some rudimentary
+                            artificial intelligence in the next section.
+                        </p>
+                        <p>
+                            As we will mention in the last section, Phaser contains many more features
+                            than are covered in this guide, giving you real scope to make some stuff that looks
+                            pretty sexy<i class="em em-ok_hand"></i>. We encourage you to experiment around - feel
+                            free to ask for our help if there is anything you'd like to try and implement!
+                        </p>
+                    </div>
+                </div>
+                <div class="section-spacer"></div>
+                <div class="section" id="setup">
+                    <div class="slim">
+                        <h2>Setup</h2>
+                        <p>
+                            Set up is listed below. As per usual, we will need a HTML file to act as a
+                            bed for our JS.
+                        </p>
+                        <ul>
+                            <li>Create a project folder on the desktop to house your files.</li>
+                            <li>
+                                Create an <b>index.html</b> file comprising of the following code. The script
+                                with the long 'src' tag is there to import the Phaser.js library.<br>
+                                <div class="codeBlock"><code>
+                                    &lt;!DOCTYPE html&gt;<br>
+                                    &lt;html&gt;<br />
+                                    &lt;head&gt;<br />
+                                    &lt;meta charset="utf-8" /&gt;<br />
+                                    &lt;title&gt; Flappy Bird &lt;/title&gt;<br />
+                                    &lt;script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/phaser/2.6.1/phaser.min.js"&gt;&lt;/script&gt;<br />
+                                    &lt;script type="text/javascript" src="main.js"&gt;&lt;/script&gt;<br />
+                                    &lt;/head&gt;<br />
+                                    &lt;/html&gt;
+                                </code></div>
+                            </li>
+                            <li>Create a <b>main.js</b> file for our code.</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="section-spacer"></div>
+                <div class="section" id="step1">
+                    <div class="slim">
+                        <h2>1) Using classes.</h2>
+                        <p>
+                            We're going to start off with a (hopefully painless) usage of JavaScript classes.
+                        </p>
+                        <p>
+                            Our Phaser game will work by configuring a <b>Phaser.State</b> object with our game code,
+                            and running it within a <b>Phaser.Game</b> object, which acts like a container. Therefore,
+                            it makes sense to create <em>extensions</em> of these two classes and modifying them
+                            to our tastes.
+                        </p>
+                        <p>
+                            So for this step, create a blank class called <code>Main</code> that <code>extends</code> the
+                            pre-made Phaser class <code>Phaser.State</code>. Then, remember that every class should have a
+                            <code>constructor()</code> method in its body, as this method is called whenever a new instance
+                            (object) of the class is created.<br>If your class is extending another class, which in this case
+                            it is, your constructor function should generally call <code>super()</code>, as this will call
+                            the parent class' <code>constructor</code> function, which makes sure that your new class
+                            inherits all of its parent's features.
+                        </p>
+                        <pre><code>class Main extends Phaser.State {<br>    constructor(){<br>      super();<br>    }<br>}</code></pre>
+                        <p>
+                            Now do the same for a class that extends the <code>Phaser.Game</code> class. We want it to
+                            be 400px wide, 490px high, and set to <code>Phaser.AUTO</code> mode. To this end, remember
+                            that <code>super</code> can take arguments. You'll need to find out what parameters that
+                            <code>Phaser.Game</code> takes!
+                        </p>
+                        <p>
+                            Our game class needs to create an instance (object) of the <code>Main</code> state and
+                            then start it up. This can be done in three lines of code.
+                        </p>
+                        <ul>
+                            <li>Create a <code>new</code> instance of <code>Main()</code> as a member variable
+                                called <code>this.main</code>.</li>
+                            <li>Add <code>this.main</code> to <code>this</code> Game object's collection
+                            of states.</li>
+                            <li>Start up Main from Game's collection of states.</li>
+                        </ul>
+                        <p>
+                            Finally, add <code>new Game()</code> right at the bottom of your code. This means a new
+                            <code>Game</code> object is started when you run <em>main.js</em>, which is when you load
+                            the web page.
+                        </p>
+                    </div>
+                </div>
+                <div class="section-spacer"></div>
+                <div class="section" id="step2">
+                    <div class="slim">
+                        <h2>2) Preload stuff.</h2>
+                        <p>
+                            <a href="">Download the files ('assets') for the game here and stick them in your folder.</a>
+                        </p>
+                        <p>
+                            Create a <code>preload</code> method in your <code>Main</code> class.
+                        </p>
+                        <p>
+                            Paste the following code in to configure your display:
+                        </p>
+                        <div class="codeBlock">
+                            <code>
+                                if(!this.game.device.desktop) {<br>
+                                this.game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;<br>
+                                this.game.scale.setMinMax(this.game.width/2, this.game.height/2, this.game.width, this.game.height);<br>
+                                }<br>
+                                this.game.scale.pageAlignHorizontally = true;<br>
+                                this.game.scale.pageAlignVertically = true;
+                            </code>
+                        </div>
+                        <p>
+                            Set the background to a colour of your choosing within this <code>preload</code> method.
+                        </p>
+                        <p>
+                            Finally in this method, load in the squares representing the bird and pipes.
+                        </p>
+                    </div>
+                </div>
+                <div class="section-spacer"></div>
+                <div class="section" id="step3">
+                    <div class="slim">
+                        <h2>3) Add a bird.</h2>
+                        <p>
+                            The <code>create</code> method is the next thing to... create? We need to add our bird,
+                            get the physics working with it, and make it flap.
+                        </p>
+<pre><code>create() {
+
+    // Set the physics system
+    game.physics.startSystem(______________);
+
+    // Add the bird at the position x=100 and y=245
+    this.bird = ____________
+
+    // Add physics to the bird
+    game.physics.arcade.enable(________);
+
+    // Add gravity to the bird to make it fall
+    this.bird.body.gravity.___ = _____;  
+
+    // Call the 'jump' function when the spacekey is hit
+    var spaceKey = game.input.keyboard.addKey(
+                    Phaser.Keyboard.________);
+    spaceKey.onDown.add(this.jump, this);     
+}
+</code></pre>
+                        <p>
+                            The method <code>this.jump</code> passed as an argument at the bottom of that
+                            snippet also needs to be created by us. Let's create a class method called
+                            <code>jump()</code>. All it needs to do is set the plane <code>body</code>'s
+                            <code>velocity</code> to an upward value. Remember, <em>downwards</em> is the positive
+                            y direction in web languages!
+                        </p>
+                        <p>
+                            Now add this <code>restartGame()</code> class method:
+                        </p>
+<pre><code>restartGame() {
+    // Start the 'main' state, which restarts the game
+    game.state.start('main');
+}
+</code></pre>
+                        <p>
+                            Code in our <code>update()</code> class method such that <code>restartGame</code>
+                            is called as soon as our bird's <code>y</code> co-ordinate is outside the bounds
+                            of the screen. After doing this, you should have something functioning like so:
+                        </p>
+                        <div class="image">
+                            <img src="http://www.lessmilk.com/imgtut/FB1/3.gif"/>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3 contents-sidebar">
+                <ul id="sidebar" class="nav nav-stacked" data-spy="affix">
+                    <li><a href="#overview">Overview</a></li>
+                    <li><a href="#setup">Setup</a></li>
+                    <li><a href="#step1">1) Using classes.</a></li>
+                    <li><a href="#step2">2) Preload stuff.</a></li>
+                    <li><a href="#step3">3) Add a bird.</a></li>
+                    <li><a href="#step3">4) Pipes.</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
 </body>
 </html>

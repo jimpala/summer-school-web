@@ -1113,3 +1113,17 @@ a:hover
     border-left-color: #2C9D91;
 }
 
+.codeBlock {
+    margin-left: 20px;
+    background-color: #f9f2f4;
+    margin-bottom: 5px;
+}
+
+.container-fluid {
+    background-position: center;
+}
+
+pre {
+    display: inline-flex;
+    justify-content: flex-start;
+}

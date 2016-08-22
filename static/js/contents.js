@@ -41,9 +41,7 @@ var main = function() {
         return false;
     });
 
-    $('a[href*=#]').click(function(){
-        $('body').animate({scrollTop:$( $.attr(this, 'href') ).offset().top},400);
-    });
+
 
     if ($('#notebook-key-button').length > 0) {
         $('#notebook-key-button').affix({
