@@ -93,7 +93,7 @@
                         <p>
                             As we will mention in the last section, Phaser contains many more features
                             than are covered in this guide, giving you real scope to make some stuff that looks
-                            pretty sexy<i class="em em-ok_hand"></i>. We encourage you to experiment around - feel
+                            pretty sexy<i class="em em-ok_hand"></i>. We encourage you to experiment - feel
                             free to ask for our help if there is anything you'd like to try and implement!
                         </p>
                     </div>
@@ -187,16 +187,14 @@
                         <p>
                             Paste the following code in to configure your display:
                         </p>
-                        <div class="codeBlock">
-                            <code>
-                                if(!this.game.device.desktop) {<br>
-                                this.game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;<br>
-                                this.game.scale.setMinMax(this.game.width/2, this.game.height/2, this.game.width, this.game.height);<br>
-                                }<br>
-                                this.game.scale.pageAlignHorizontally = true;<br>
-                                this.game.scale.pageAlignVertically = true;
-                            </code>
-                        </div>
+<pre><code>if(!this.game.device.desktop) {
+    this.game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
+    this.game.scale.setMinMax(this.game.width/2, this.game.height/2, this.game.width, this.game.height);
+}
+
+this.game.scale.pageAlignHorizontally = true;
+this.game.scale.pageAlignVertically = true;
+</code></pre>
                         <p>
                             Set the background to a colour of your choosing within this <code>preload</code> method.
                         </p>
@@ -211,24 +209,25 @@
                         <h2>3) Add a bird.</h2>
                         <p>
                             The <code>create</code> method is the next thing to... create? We need to add our bird,
-                            get the physics working with it, and make it flap.
+                            get the physics working with it, and make it flap. We will be using the
+                            <code>Phaser.Physics.ARCADE</code> engine.
                         </p>
 <pre><code>create() {
 
     // Set the physics system
-    game.physics.startSystem(______________);
+    this.game.physics.startSystem(______________);
 
     // Add the bird at the position x=100 and y=245
     this.bird = ____________
 
     // Add physics to the bird
-    game.physics.arcade.enable(________);
+    this.game.physics.arcade.enable(________);
 
     // Add gravity to the bird to make it fall
     this.bird.body.gravity.___ = _____;  
 
     // Call the 'jump' function when the spacekey is hit
-    var spaceKey = game.input.keyboard.addKey(
+    var spaceKey = this.game.input.keyboard.addKey(
                     Phaser.Keyboard.________);
     spaceKey.onDown.add(this.jump, this);     
 }
@@ -245,7 +244,7 @@
                         </p>
 <pre><code>restartGame() {
     // Start the 'main' state, which restarts the game
-    game.state.start('main');
+    this.game.state.start('main');
 }
 </code></pre>
                         <p>
@@ -258,6 +257,126 @@
                         </div>
                     </div>
                 </div>
+                <div class="section-spacer"></div>
+                <div class="section" id="step4">
+                    <div class="slim">
+                        <h2>4) Pipes.</h2>
+                        <p>
+                            We now need to add some pipes with a randomly generated gap for the bird to pass
+                            through. Our pipes will be the objects moving in the negative x-direction, giving the illusion
+                            of the bird travelling in the positive x-direction. If you want to get physicsy, both
+                            scenarios are essentially equivalent, but it's much easier for our purposes to keep
+                            the bird stationary on the x-axis.
+                        </p>
+                        <p>
+                            First things first, in our <code>create</code> method, add an empty group to the
+                            <code>game</code> called <code>this.pipes</code>. This will group all of our pipes
+                            together, which will be useful as there will be a few of them.
+                        </p>
+                        <p>
+                            Now let's create another class method. This one is to add a pipe to the screen,
+                            and we'll call it <code>addOnePipe()</code>.
+                        </p>
+<pre><code>addOnePipe(x, y) {
+    // Create a pipe at the position x and y
+    var pipe = ____________;
+
+    // Add the pipe to our previously created group
+    _____________;
+
+    // Enable physics on the pipe 
+    _____________;
+
+    // Add velocity to the pipe to make it move left
+    _____________; 
+
+    // Automatically kill the pipe when it's no longer visible 
+    pipe.checkWorldBounds = ________;
+    pipe.outOfBoundsKill = ________;
+}
+</code></pre>
+
+                        <p>
+                            Then this needs implementing within a function that creates a row of pipes with
+                            a randomly generated two-pipe gap, <code>addRowOfPipes</code>.
+                            Observe the following picture...
+                        </p>
+                        <div class="image">
+                            <img src="http://www.lessmilk.com/imgtut/FB1/6.png"/>
+                        </div>
+                        <p>
+                            ...and try to complete the <code>addRowOfPipes</code> class method below:
+                        </p>
+<pre><code>addRowOfPipes() {
+    // Randomly pick a number between 1 and 5
+    // This will be the hole position
+    var hole = ____________;
+
+    // Add the 6 pipes 
+    // With one big hole at position 'hole' and 'hole + 1'
+    ______________  
+}
+</code></pre>
+                        <p>
+                            Finally for this section, we can add a timer to the <code>create</code>
+                            method to spawn a row of pipes every time a set time interval elapses.
+                        </p>
+<pre><code>this.timer = this.game.time.events.loop(_______, _______, this);
+</code></pre>
+                        <p>
+                            All going to plan, your game should function something like this:
+                        </p>
+                        <div class="image">
+                            <img src="http://www.lessmilk.com/imgtut/FB1/4.gif"/>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-spacer"></div>
+                <div class="section" id="step5">
+                    <div class="slim">
+                        <h2>5) Collisions and scoring.</h2>
+                        <p>
+                            To finish off the basic game, we need to determine when the bird collides with the
+                            pipes and hence loses the game, and also add a score display. We'll start with the
+                            score. Initialise the scoreboard in the <code>create</code> method:
+                        </p>
+<pre><code>
+this.score = ___;
+this.labelScore = this.game.add.text(20, 20, "0", 
+    { font: "30px Arial", fill: "#ffffff" });
+</code></pre>
+                        <p>
+                            Then we'll increment put the following somewhere that will increment the
+                            scoreboard every time a new row of pipes is added:
+                        </p>
+<pre><code>// Increment this.score
+___________;
+this.labelScore.text = this.score;
+</code></pre>
+                        <p>
+                            The last step to get a working game is to restart the game upon a collision.
+                            A collision is registered as an overlap between <code>bird</code> and
+                            <code>pipes</code>, so putting the following line inside <code>update</code>
+                            should do the trick:
+                        </p>
+<pre><code>game.physics.arcade.overlap(_______, _______, ______, null, this);
+</code></pre>
+                        <p>
+                            If it works, it'll look like this:
+                        </p>
+                        <div class="image">
+                            <img src="http://www.lessmilk.com/imgtut/FB1/5.gif"/>
+                        </div>
+                        <p>
+                            Bear in mind that you may have to fiddle around with your numerical values
+                            for velocities, accelerations, positions and timers to get the difficulty
+                            right.
+                        </p>
+                        <p>
+                            Congrats on creating yourself an irritating viral game hit <i class="em em-bird"></i>
+                        </p>
+                    </div>
+                </div>
             </div>
             <div class="col-md-3 contents-sidebar">
                 <ul id="sidebar" class="nav nav-stacked" data-spy="affix">
@@ -266,7 +385,8 @@
                     <li><a href="#step1">1) Using classes.</a></li>
                     <li><a href="#step2">2) Preload stuff.</a></li>
                     <li><a href="#step3">3) Add a bird.</a></li>
-                    <li><a href="#step3">4) Pipes.</a></li>
+                    <li><a href="#step4">4) Pipes.</a></li>
+                    <li><a href="#step5">5) Collisions and scoring.</a></li>
                 </ul>
             </div>
         </div>
