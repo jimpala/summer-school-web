@@ -39,9 +39,9 @@ handlers:
   static_files: static/snake-guide.html
   upload: static/snake-guide.html
 
-- url: /snake-sample
-  static_files: static/snake-sample.html
-  upload: static/snake-sample.html
+- url: /flappy-game-guide
+  static_files: static/flappy-game-guide.html
+  upload: static/flappy-game-guide.html
 
 - url: /
   static_files: static/index.html
